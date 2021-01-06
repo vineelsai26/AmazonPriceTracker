@@ -1,0 +1,55 @@
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+    <title>Amazon Price Tracker</title>
+</head>
+
+<body>
+
+<div id="navbar">
+    <a href="/" id="logo">Amazon Price Tracker</a>
+
+    <div id="navbar-right">
+        {% if request.user.is_authenticated %}
+            <div class="dropdown">
+                <button class="drop-btn">{{ request.user }}</button>
+                <div class="dropdown-content">
+                    <a href="/items">Items</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+        {% else %}
+            <a href="/login">login</a>
+        {% endif %}
+    </div>
+</div>
+
+<div style="width: fit-content; margin-left: auto; margin-right: auto;">
+    <table style="border: 1px solid black; overflow: hidden; margin: 10%; background: black; height: 100%; float: left">
+        <tr>
+            <td style="overflow: hidden; border: 1px solid black; background: white; width: 40%;"> Url</td>
+            <td style="overflow: hidden; border: 1px solid black; background: white;"> Expected Price</td>
+            <td style="overflow: hidden; border: 1px solid black; background: white;"> Price Now</td>
+            <td style="overflow: hidden; border: 1px solid black; background: white;"> Action</td>
+        </tr>
+        {% for key, value in data.items %}
+            <tr style="width: 100%">
+                <td style="border: 1px solid black; background: white;">{{ value.url }}</td>
+                <td style="border: 1px solid black; background: white;">{{ value.exp_price }}</td>
+                <td style="border: 1px solid black; background: white;">{{ value.price }}</td>
+                <td style="border: 1px solid black; background: white;">
+                    <button>Delete</button>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+
+</html>

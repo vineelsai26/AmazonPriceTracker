@@ -1,0 +1,97 @@
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+    <title>Amazon Price Tracker</title>
+</head>
+
+<body>
+
+<div id="navbar">
+    <a href="/" id="logo">Amazon Price Tracker</a>
+
+    <div id="navbar-right">
+        {% if request.user.is_authenticated %}
+            <div class="dropdown">
+                <button class="drop-btn">{{ request.user }}</button>
+                <div class="dropdown-content">
+                    <a href="/items">Items</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+        {% else %}
+            <a href="/login">login</a>
+        {% endif %}
+    </div>
+</div>
+
+<div style="width: fit-content; padding-top: 10%; margin-left: auto; margin-right: auto;">
+    {% block includes %}
+        {% if title %}
+            <div style="width: fit-content; height: 50%; padding: 0; border: 1px solid black; background: black;">
+                <img style="display: block; float: left; height: 100%;" alt="{{ title }}" src="{{ img }}">
+                <table style="border: 1px solid black; font-size: 25px; padding: 0; background: black; width: fit-content; height: 100%; float: left">
+                    <tr>
+                        <th style="border: 1px solid black; margin: 0; background: white;">
+                            Item Name
+                        </th>
+                        <td style="border: 1px solid black; margin: 0; background: white;">
+                            {{ title }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="border: 1px solid black; margin: 0; background: white;">
+                            Item Price
+                        </th>
+                        <td style="border: 1px solid black; margin: 0; background: white;">
+                            ₹ {{ price }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="border: 1px solid black; margin: 0; background: white;">
+                            Tracking Status
+                        </th>
+                        <td style="border: 1px solid black; margin: 0; background: white;">
+                            {% if request.user.is_authenticated %}
+                                {% if message %}
+                                    <p style="color: green;">{{ message }}</p>
+                                {% else %}
+                                    <form action="/track" method="get" class="form" style="padding: 0;">
+                                        <label>
+                                            <input name="url" value="{{ url }}" style="visibility: collapse;">
+                                        </label>
+                                        <label>
+                                            <input name="price" class="text" placeholder="Expected Price">
+                                        </label>
+                                        <input type="submit" value="Track Item" class="button">
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <p style="color: red;">Please LogIn</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+                {#                    <p>Item Name : {{ title }} </p>#}
+                {#                    <p>Item Price :  {{ price }} </p>#}
+
+            </div>
+        {% else %}
+            {% if error %}
+                <p style="text-align: center; color: red;">{{ error }}</p>
+            {% endif %}
+        {% endif %}
+
+        {% if added_to_list %}
+            <p style="text-align: center; color: green;">Successfully Added to trackers list</p>
+        {% endif %}
+    {% endblock includes %}
+</div>
+
+</body>
+
+</html>

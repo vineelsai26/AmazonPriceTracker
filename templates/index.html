@@ -1,0 +1,44 @@
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+    <title>Amazon Price Tracker</title>
+</head>
+
+<body>
+
+<div id="navbar">
+    <a href="/" id="logo">Amazon Price Tracker</a>
+
+    <div id="navbar-right">
+        {% if request.user.is_authenticated %}
+            <div class="dropdown">
+                <button class="drop-btn">{{ request.user }}</button>
+                <div class="dropdown-content">
+                    <a href="/items">Items</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+        {% else %}
+            <a href="/login">login</a>
+        {% endif %}
+    </div>
+</div>
+
+<div>
+    <form action="/url" style="padding-top: 20%" method="get" class="form">
+        <label for="url">
+            <input id="url" name="url" type="text" class="text" style="width: 100%" required>
+        </label>
+        <br>
+        <input style="margin-left: 100px" type="submit" value="Check" class="button">
+    </form>
+</div>
+
+</body>
+
+</html>

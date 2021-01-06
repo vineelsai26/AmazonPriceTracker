@@ -1,0 +1,78 @@
+{% load static %}
+
+{% block content %}
+
+    <style type="text/css">
+
+        .card-signIn {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            margin: auto;
+        }
+
+        .form-signIn {
+            margin-bottom: 10px;
+        }
+
+        .form-text {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        .button {
+            background: #2dabf9 linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
+            border-radius: 4px;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 15px;
+            border-width: 0;
+            padding: 15px 30px;
+            width: 30%;
+            margin-left: 35%;
+        }
+
+        .button:hover {
+            background: #0688fa linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
+        }
+
+        .button:active {
+            position: relative;
+            top: 1px;
+        }
+
+    </style>
+
+    <div style="width: 30%; margin-left: 35%; margin-top: 10%;">
+        <form class="form-signIn" method="post">{% csrf_token %}
+            <label for="inputEmail">
+                <input type="email" name="email" id="inputEmail" class="form-text" placeholder="Email address" required
+                       autofocus>
+            </label> <br>
+
+            <label for="inputPassword">
+                <input type="password" name="password" id="inputPassword" class="form-text" placeholder="Password"
+                       required>
+            </label> <br>
+
+            {% for field in login_form %}
+                {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+            {% if login_form.non_field_errors %}
+                <div style="color: red">
+                    <p>{{ login_form.non_field_errors }}</p>
+                </div>
+
+            {% endif %}
+
+            <button class="button" type="submit">Log in</button>
+        </form>
+    </div>
+
+{% endblock content %}
