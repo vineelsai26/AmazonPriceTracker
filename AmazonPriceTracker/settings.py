@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'AmazonPriceTracker.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DB_NAME = "pricetracker"
-DB_USER = "vineelsai"
+DB_USER = "postgres"
 DB_PASSWORD = "vineelsai73"
 DATABASES = {
     'default': {

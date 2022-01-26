@@ -21,7 +21,9 @@ def url_to_track(request):
     url = request.GET.get("url")
     print(url)
 
-    urls_by_user = [url.url for url in UrlsToTrack.objects.filter(username=request.user)]
+    urls_by_user = [
+        url.url for url in UrlsToTrack.objects.filter(username=request.user)
+    ]
     if urls_by_user.__contains__(request.GET.get("url")):
         context = scrap(url)
         context["message"] = "Already tracking this url"
@@ -42,14 +44,16 @@ def scrap(url):
     page = requests.get(url, headers=HEADERS)
     soup = BeautifulSoup(page.content, 'html.parser')
     title = soup.find(id="productTitle").getText().strip()
-    price = soup.find(id="priceblock_ourprice").getText().strip()
+    price = soup.find("span", {"class": "a-price-whole"}).getText().strip()
     img = soup.find(id="landingImage")["src"].strip()
     price = price.lstrip("₹ ").strip().replace(",", "")
     return {"title": title, "price": price, "img": img, "url": url}
 
 
 def track(request):
-    urls_by_user = [url.url for url in UrlsToTrack.objects.filter(username=request.user)]
+    urls_by_user = [
+        url.url for url in UrlsToTrack.objects.filter(username=request.user)
+    ]
     context = {}
     if urls_by_user.__contains__(request.GET.get("url")):
         context["added_to_list"] = True
