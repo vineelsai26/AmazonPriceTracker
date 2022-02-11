@@ -125,11 +125,3 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
-
-th {
-    text-align: center;
-}
-
-td {
-    text-align: center;
-}

@@ -2,49 +2,53 @@
 
 {% block content %}
 
-
-    <style type="text/css">
-        .card-signIn {
-            width: 100%;
-            max-width: 400px;
-            padding: 15px;
-            margin: auto;
-        }
-
-        .form-signIn {
-            margin-bottom: 10px;
-        }
-
-        .form-text {
-            margin-bottom: 10px;
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            box-sizing: border-box;
-        }
-
-        .button {
-            background: #2dabf9 linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
-            border-radius: 4px;
-            display: inline-block;
-            cursor: pointer;
-            color: #ffffff;
-            font-size: 15px;
-            border-width: 0;
-            padding: 15px 30px;
-            width: 30%;
-            margin-left: 35%;
-        }
-
-        .button:hover {
-            background: #0688fa linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
-        }
-
-        .button:active {
-            position: relative;
-            top: 1px;
-        }
-    </style>
+    <head>
+        <style type="text/css">
+            .card-signIn {
+                width: 100%;
+                max-width: 400px;
+                padding: 15px;
+                margin: auto;
+            }
+        
+            .form-signIn {
+                margin-bottom: 10px;
+            }
+        
+            .form-text {
+                margin-bottom: 10px;
+                width: 100%;
+                padding: 12px;
+                margin: 8px 0;
+                box-sizing: border-box;
+            }
+        
+            .button {
+                background: #2dabf9 linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
+                border-radius: 4px;
+                display: inline-block;
+                cursor: pointer;
+                color: #ffffff;
+                font-size: 15px;
+                border-width: 0;
+                padding: 15px 30px;
+                width: 30%;
+                margin-left: 35%;
+            }
+        
+            .button:hover {
+                background: #0688fa linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
+            }
+        
+            .button:active {
+                position: relative;
+                top: 1px;
+            }
+        </style>
+        
+        <link href="{% static 'logo.png' %}" rel="icon" type="image/png">
+        <title>Register</title>
+    </head>
 
     <div style="width: 30%; margin-left: 35%; margin-top: 10%;">
         <form class="form-signIn" method="post">{% csrf_token %}

@@ -1,19 +1,25 @@
 import smtplib
 import threading
 import time
+import os
 
 import requests
 from bs4 import BeautifulSoup
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from PriceTracker.models import UrlsToTrack
 
-HEADERS = ({'User-Agent': 'Chrome'})
+from dotenv import load_dotenv
+load_dotenv()
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+    "Accept": "text/html, application/xhtml+xml, application/xml q = 0.9, image/webp, image/apng, */* q = 0.8"
+}
 
 
 def home(request):
     context = {}
-    # track_items_in_db()
     return render(request, "index.html", context)
 
 
@@ -43,10 +49,10 @@ def url_to_track(request):
 def scrap(url):
     page = requests.get(url, headers=HEADERS)
     soup = BeautifulSoup(page.content, 'html.parser')
-    title = soup.find(id="productTitle").getText().strip()
+    title = soup.find(id="title").getText().strip()
     price = soup.find("span", {"class": "a-price-whole"}).getText().strip()
     img = soup.find(id="landingImage")["src"].strip()
-    price = price.lstrip("₹ ").strip().replace(",", "")
+    price = price.replace(",", "").replace(".", "").replace("₹", "").strip()
     return {"title": title, "price": price, "img": img, "url": url}
 
 
@@ -82,11 +88,16 @@ def items(request):
     return render(request, "items.html", context)
 
 
+def deleteItem(request):
+    UrlsToTrack.objects.filter(username=request.user, url=request.GET.get("url")).delete()
+    return redirect("/items/")
+
+
 def mail(email, url, price):
     print(email, url, price)
 
-    sender_email = ""
-    sender_email_password = ""
+    sender_email = os.getenv('SMTP_EMAIL')
+    sender_email_password = os.getenv('SMTP_PASSWORD')
 
     s = smtplib.SMTP('smtp.gmail.com', 587)
     s.starttls()
@@ -97,6 +108,7 @@ def mail(email, url, price):
 
 
 def track_items_in_db():
+    time.sleep(36000)
     for url in UrlsToTrack.objects.all():
         if float(scrap(url.url)["price"]) <= float(url.exp_price):
             print(url.url)
@@ -108,10 +120,9 @@ def track_items_in_db():
         else:
             print("nope")
 
-    time.sleep(36000)
     track_items_in_db()
 
 
-t = threading.Thread(target=track_items_in_db, args=(), kwargs={})
-t.setDaemon(True)
-t.start()
+thread = threading.Thread(target=track_items_in_db, args=(), kwargs={})
+thread.setDaemon(True)
+thread.start()

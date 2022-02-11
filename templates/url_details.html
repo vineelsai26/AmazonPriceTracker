@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+    <link href="{% static 'logo.png' %}" rel="icon" type="image/png">
     <title>Amazon Price Tracker</title>
 </head>
 
@@ -29,33 +30,35 @@
     </div>
 </div>
 
-<div style="width: fit-content; padding-top: 10%; margin-left: auto; margin-right: auto;">
+<div style="width: 80%; padding-top: 10%; margin-left: auto; margin-right: auto;">
     {% block includes %}
         {% if title %}
+            <div style="width: 100%;">
+                <img style="margin-left: 50%; transform: translateX(-50%)" alt="{{ title }}" src="{{ img }}">
+            </div>
             <div style="width: fit-content; height: 50%; padding: 0; border: 1px solid black; background: black;">
-                <img style="display: block; float: left; height: 100%;" alt="{{ title }}" src="{{ img }}">
                 <table style="border: 1px solid black; font-size: 25px; padding: 0; background: black; width: fit-content; height: 100%; float: left">
                     <tr>
-                        <th style="border: 1px solid black; margin: 0; background: white;">
+                        <th style="text-align: center; border: 1px solid black; margin: 0; background: white;">
                             Item Name
                         </th>
-                        <td style="border: 1px solid black; margin: 0; background: white;">
+                        <td style="text-align: center; border: 1px solid black; margin: 0; background: white;">
                             {{ title }}
                         </td>
                     </tr>
                     <tr>
-                        <th style="border: 1px solid black; margin: 0; background: white;">
+                        <th style="text-align: center; border: 1px solid black; margin: 0; background: white;">
                             Item Price
                         </th>
-                        <td style="border: 1px solid black; margin: 0; background: white;">
+                        <td style="text-align: center; border: 1px solid black; margin: 0; background: white;">
                             ₹ {{ price }}
                         </td>
                     </tr>
                     <tr>
-                        <th style="border: 1px solid black; margin: 0; background: white;">
+                        <th style="text-align: center; border: 1px solid black; margin: 0; background: white;">
                             Tracking Status
                         </th>
-                        <td style="border: 1px solid black; margin: 0; background: white;">
+                        <td style="text-align: center; border: 1px solid black; margin: 0; background: white;">
                             {% if request.user.is_authenticated %}
                                 {% if message %}
                                     <p style="color: green;">{{ message }}</p>
@@ -76,8 +79,8 @@
                         </td>
                     </tr>
                 </table>
-                {#                    <p>Item Name : {{ title }} </p>#}
-                {#                    <p>Item Price :  {{ price }} </p>#}
+                {#<p>Item Name : {{ title }} </p>#}
+                {#<p>Item Price :  {{ price }} </p>#}
 
             </div>
         {% else %}
