@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ["*"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG") != 'False'
 
-if DEBUG == False:
+if DEBUG == os.getenv("PRODUCTION") != 'False':
     SECURE_HSTS_PRELOAD = True
 
     SECURE_HSTS_SECONDS = 31536000
@@ -142,8 +142,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'static_cdn'),
+    os.path.join(BASE_DIR, 'static')
 ]
 
 STATIC_URL = '/static/'
